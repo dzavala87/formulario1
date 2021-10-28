@@ -1,0 +1,31 @@
+import { ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl,ValidatorFn } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+
+export class Validaciones {
+    static minimo(ncar:number): ValidatorFn {
+      return Validators.minLength(ncar);
+    }
+    static caracterval(opce:number): ValidatorFn {
+      if(opce == 0){return Validators.pattern('^[0-9]*$'); }
+      if(opce == 1){return Validators.pattern('^[0-9.]*$');}
+      if(opce == 2){return Validators.pattern('^[A-Za-z ñáéíóúÑÁÉÍÓÚ]*$');}
+      return Validators.pattern('^[0-9A-Za-z ñáéíóúÑÁÉÍÓÚ,.:?!¡{}@#%&()=+*-/]*$');
+    }
+  
+    static mayorque(val: number): ValidatorFn {
+       return (control: AbstractControl): ValidationErrors | null => {
+           let v: number = +control.value;
+           if (isNaN(v)) {
+          return { 'mayorque': true, 'requiredValue': val }
+        }      
+           if (v <= +val) {
+          return { 'mayorque': true, 'requiredValue': val }
+        }     
+        return null;      
+      }   
+    }
+
+
+  }
+  
